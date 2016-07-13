@@ -77,8 +77,6 @@ export CATALINA_OPTS="-ms64M -mx512M -XX:+CMSClassUnloadingEnabled -XX:+CMSPermG
 #--------------------------------------------------------------
 # Quick Command Aliases
 #--------------------------------------------------------------
-alias rm="echo Use 'del', or the full path i.e. '/bin/rm'"
-alias del="rmtrash" 
 
 alias bin="cd ~/bin"
 alias be="bundle exec"
@@ -91,6 +89,8 @@ alias ca=changeAll
 alias can=changeAllNoBak
 alias cpath='expandPath $CLASSPATH'
 alias dl='cd ${HOME}/Downloads;'
+alias dli='docker ps -l -q'
+
 alias doc='cd ${HOME}/Documents;'
 alias dotc="ssh dricha209@opentechconsulting.com"
 alias dut=duTotal
@@ -390,12 +390,4 @@ function zshaddhistory() {
    HISTORY_FILE="$HOME/bash_perm_hist/`date +%Y-%m-%d`_history"
    touch $HISTORY_FILE
    echo $HISTORY_LINE >> $HISTORY_FILE
-}
-c () {
-  cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`" ;
-}
-caa () {
-  pwd=`pwd`
-  echo "Adding $pwd to ~/.cdargs"
-  echo $1 $pwd >> ~/.cdargs
 }

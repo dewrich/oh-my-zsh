@@ -40,7 +40,7 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(git)
 #plugins=(drichard plenv rbenv  mvn autojump git python rails textmate ruby ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting)
-plugins=(drichard docker mvn autojump git python ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting golang)
+plugins=(drichard glide docker vagrant autojump git python ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting golang postgres)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -63,7 +63,6 @@ zle -N history-incremental-multi-search-forward history-incremental-multi-search
 bindkey '^Xr' history-incremental-multi-search-backward
 bindkey '^Xs' history-incremental-multi-search-forward
 
-PERL_MB_OPT="--install_base \"/Users/drichard/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/drichard/perl5"; export PERL_MM_OPT;
-
 unsetopt correct_all
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
