@@ -40,6 +40,7 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(git)
 #plugins=(drichard plenv rbenv  mvn autojump git python rails textmate ruby ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting)
+ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
 plugins=(drichard glide docker vagrant autojump git python ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting golang postgres)
 
 source $ZSH/oh-my-zsh.sh
