@@ -6,6 +6,7 @@
 # Aliases ###################################################################
 
 alias dcup='docker-compose up'
+alias dcdown='docker-compose down'
 alias dcb='docker-compose build'
 alias dcrm='docker-compose rm'
 alias dcps='docker-compose ps'
