@@ -22,10 +22,7 @@ export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$HOME/perl5/lib/perl5:$TO_
 export RUBYMINE_HOME=/opt/rubymine
 export APPS_HOME=$ROOT/opt
 export TOMCAT_HOME=C:\opt\apache-tomcat-6.0.16
-export EARS_DEBUG=1
 export ANT_HOME=$APPS_HOME/ant
-export FLUME_CONFIG_DIR=/opt/flume/conf
-export FLUME_HOME=/opt/flume
 export GRAILS_HOME=$APPS_HOME/grails
 export GROOVY_HOME=/opt/groovy-1.5.6
 export GVIM_HOME=$APPS_HOME/Vim/Vim71
@@ -61,6 +58,8 @@ export FIGNORE=".svn"
 
 export USE_BUNDLER=force
 
+export GOMAXPROCS=6
+
 #Thirdparty Paths
 export PATH=$TO_APP_HOME/local/bin:$GOPATH/bin:/usr/local/bin:./bin:$RUBYMINE_HOME/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GROOVY_HOME/bin::/sbin:/opt/sfw/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH:$PGHOME/bin
 #export PATH=$JAVA_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:/sbin:$PATH
@@ -83,7 +82,7 @@ alias be="bundle exec"
 alias ber="bundle exec rake"
 alias boot=". ~/.mybashrc;"
 #alias bhg="grep -R $* /Users/dricha209/Dropbox/bash_perm_hist"
-alias bhg='find ~/bash_perm_hist/* -name "*" | xargs grep --no-filename $*'
+alias hg='find ~/bash_perm_hist/* -name "*" | xargs grep --no-filename $*'
 alias buildpjtree=buildTree
 alias ca=changeAll
 alias can=changeAllNoBak
@@ -119,6 +118,8 @@ alias egrep='egrep --color=tty -d skip'
 alias fgrep='fgrep --color=tty -d skip'
 alias grep='grep --color=tty -d skip'
 alias gobak=goBackToBak
+alias gt='go test -v $(go list ./... | grep -v /vendor/)'
+alias ggrep='find . -name "*.go"  | grep -v vendor | xargs grep -r "$1"'
 alias grepi="grep -i"
 alias gv="gvim -o"
 alias gvim="gvim -o"
@@ -218,14 +219,15 @@ function findGrep()
 {
     SEARCH_STRING=$1
     echo "Searching..."
-    find . -name '*' | grep -v .svn | xargs grep -i $*
+    find . -type f -name '*' | grep -v .svn | grep -v .git | xargs grep -i $*
+    #find . -name '*' | grep -v .svn | grep -v .git | xargs grep -i $*
 }
 
 function findGrepGo()
 {
     SEARCH_STRING=$1
     echo "Searching..."
-    find . -name '*.go' | xargs grep -i $*
+    find . -name '*.go' | grep -v vendor | xargs grep -in $*
 }
 
 function searchJars()

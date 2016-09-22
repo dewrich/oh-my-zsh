@@ -41,7 +41,7 @@ COMPLETION_WAITING_DOTS="true"
 #plugins=(git)
 #plugins=(drichard plenv rbenv  mvn autojump git python rails textmate ruby ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting)
 ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
-plugins=(drichard glide docker vagrant autojump git python ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting golang postgres)
+plugins=(drichard glide docker docker-compose vagrant autojump git python ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting golang postgres)
 
 source $ZSH/oh-my-zsh.sh
 
