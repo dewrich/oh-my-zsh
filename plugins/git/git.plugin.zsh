@@ -166,6 +166,8 @@ alias gke='\gitk --all $(git log -g --pretty=%h)'
 compdef _git gke='gitk'
 
 alias gl='git pull'
+# Show last git commit
+alias glc='git log --name-status HEAD^..HEAD'
 alias glg='git log --stat'
 alias glgp='git log --stat -p'
 alias glgg='git log --graph'
