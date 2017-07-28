@@ -5,10 +5,16 @@
 
 # Aliases ###################################################################
 
-alias dcup='docker-compose up'
-alias dcdown='docker-compose down'
+alias dco='docker-compose'
+
 alias dcb='docker-compose build'
-alias dcrm='docker-compose rm'
+alias dce='docker-compose exec'
 alias dcps='docker-compose ps'
-alias dcstop='docker-compose stop'
 alias dcrestart='docker-compose restart'
+alias dcrm='docker-compose rm'
+alias dcr='docker-compose run'
+alias dcstop='docker-compose stop'
+alias dcup='docker-compose up'
+alias dcdn='docker-compose down'
+alias dcl='docker-compose logs'
+alias dclf='docker-compose logs -f'
