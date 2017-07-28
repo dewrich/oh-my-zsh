@@ -3,10 +3,13 @@
 #--------------------------------------------------------------
  
 # TODO: clean these up
+#
+# 
+export TC_ANSIBLE_VARS=/Users/dricha209/cdn/infrastructure/ansible
 export VISUAL=vim
 export GIT_SSL_NO_VERIFY=true
 export HISTTIMEFORMAT="%s "
-export HISTSIZE=5000
+export HISTSIZE=100000
 export BIN_HOME=/Users/dricha209/bin
 export GOPATH=/Users/dricha209/projects/go
 export PROJECT_HOME=/Users/dricha209/projects
@@ -14,11 +17,14 @@ export PROJECT_HOME=/Users/dricha209/projects
 # set in the .bashrc
 export ROOT=
 export MOJO_CONFIG=/Users/dricha209/cdn.conf
-export GITHUB_HOME=/Users/dricha209/projects/github.com
-export TC_HOME=$GITHUB_HOME/traffic_control
-export TO_APP_HOME=$TC_HOME/traffic_ops/app
-export PRIV_EXTENSIONS_LIB=/Users/dricha209/projects/cdneng/misc/traffic_ops_extensions/lib
-export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$HOME/perl5/lib/perl5:$TO_APP_HOME/local/lib/perl5
+#export TO_DEFAULT_USER=dewrich
+export GO_HOME=$HOME/projects/go
+export GH_HOME=$GO_HOME/src/github.com/apache/incubator-trafficcontrol
+export GHE_HOME=$GO_HOME/src/github.comcast.com/apache/incubator-trafficcontrol
+export TO_APP_HOME=$GH_HOME/traffic_ops/app
+export PRIV_EXTENSIONS_LIB=$GOPATH/src/github.comcast.com/cdn/traffic_ops_extensions/lib
+export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$TO_APP_HOME/local/lib/perl5
+#export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$HOME/perl5/lib/perl5:$TO_APP_HOME/local/lib/perl5
 export RUBYMINE_HOME=/opt/rubymine
 export APPS_HOME=$ROOT/opt
 export TOMCAT_HOME=C:\opt\apache-tomcat-6.0.16
@@ -82,13 +88,16 @@ alias be="bundle exec"
 alias ber="bundle exec rake"
 alias boot=". ~/.mybashrc;"
 #alias bhg="grep -R $* /Users/dricha209/Dropbox/bash_perm_hist"
-alias hg='find ~/bash_perm_hist/* -name "*" | xargs grep --no-filename $*'
+alias ph='find ~/perm_hist/* -name "*" | xargs grep $*'
+#alias ph='find ~/perm_hist/* -name "*" | xargs grep --no-filename $*'
 alias buildpjtree=buildTree
 alias ca=changeAll
 alias can=changeAllNoBak
 alias cpath='expandPath $CLASSPATH'
 alias dl='cd ${HOME}/Downloads;'
 alias dli='docker ps -l -q'
+alias dca='docker rm $(docker ps -qa) && docker rmi $(docker images -qa)'
+alias dka='docker kill $(docker ps -qa)'
 
 alias doc='cd ${HOME}/Documents;'
 alias dotc="ssh dricha209@opentechconsulting.com"
@@ -114,6 +123,7 @@ alias ffwritablej="find . -name \*.java -perm +ugo=w"
 alias fmt='jacobe -overwrite -nobackup '
 alias gff="grepFind"
 alias gitc="git commit -m $* -a"
+alias git10='git reset --hard master@{"10 minutes ago"}'
 alias egrep='egrep --color=tty -d skip'
 alias fgrep='fgrep --color=tty -d skip'
 alias grep='grep --color=tty -d skip'
@@ -374,7 +384,7 @@ function subversionAddNewAssets()
     svn add `svn stat | grep ? | awk '{print $2}'`
 }
 
-#Appends to the bash_perm_hist files
+#Appends to the perm_hist files
 function zshaddhistory() {
    TODAYS_MONTH=`expr \`date +%m\` `
    TODAYS_DAY=`expr \`date +%d\` `
@@ -386,10 +396,10 @@ function zshaddhistory() {
    TODAYS_AM_PM=`expr \`date +%p\` `
    TODAYS_TIME="$TODAYS_MONTH $TODAYS_DAY, $TODAYS_YEAR - $TODAYS_HOUR:$TODAYS_MIN:$TODAYS_SECS $TODAYS_AM_PM"
 
-   mkdir -p ~/bash_perm_hist
+   mkdir -p ~/perm_hist
    HISTORY_LINE="DATE: $TODAYS_TIME $USER $(history | tail -1)"
 
-   HISTORY_FILE="$HOME/bash_perm_hist/`date +%Y-%m-%d`_history"
+   HISTORY_FILE="$HOME/perm_hist/`date +%Y-%m-%d`_history"
    touch $HISTORY_FILE
    echo $HISTORY_LINE >> $HISTORY_FILE
 }
