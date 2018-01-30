@@ -16,14 +16,17 @@ export PROJECT_HOME=/Users/dricha209/projects
 
 # set in the .bashrc
 export ROOT=
-export MOJO_CONFIG=/Users/dricha209/cdn.conf
+#export MOJO_CONFIG=/Users/dricha209/cdn.conf
 #export TO_DEFAULT_USER=dewrich
 export GO_HOME=$HOME/projects/go
 export GH_HOME=$GO_HOME/src/github.com/apache/incubator-trafficcontrol
-export GHE_HOME=$GO_HOME/src/github.comcast.com/apache/incubator-trafficcontrol
+#export GH_HOME=$GO_HOME/src/github.com/apache/incubator-trafficcontrol
+export GH_APACHE_HOME=$GO_HOME/src/github.com/apache
+export GHE_HOME=$GHE_APACHE_HOME/incubator-trafficcontrol
 export TO_APP_HOME=$GH_HOME/traffic_ops/app
+export TO_APP_LOCAL_HOME=$TO_APP_HOME/local
 export PRIV_EXTENSIONS_LIB=$GOPATH/src/github.comcast.com/cdn/traffic_ops_extensions/lib
-export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$TO_APP_HOME/local/lib/perl5
+export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$TO_APP_LOCAL_HOME/lib/perl5
 #export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$HOME/perl5/lib/perl5:$TO_APP_HOME/local/lib/perl5
 export RUBYMINE_HOME=/opt/rubymine
 export APPS_HOME=$ROOT/opt
@@ -105,6 +108,7 @@ alias dut=duTotal
 alias ff='find . -name '
 #Find files by string and delete them "even if they have spaces between"
 alias ffd='find . -name $* -print0 | xargs -0 rm'
+alias ffi='find -name \*.go | grep -v vendor | xargs goimports -w'
 alias ffg=findGrep
 alias ffgo=findGrepGo
 
@@ -128,7 +132,7 @@ alias egrep='egrep --color=tty -d skip'
 alias fgrep='fgrep --color=tty -d skip'
 alias grep='grep --color=tty -d skip'
 alias gobak=goBackToBak
-alias gt='go test -v $(go list ./... | grep -v /vendor/)'
+alias gt='go test -v $(go list ./... | grep -v /vendor/) $*'
 alias ggrep='find . -name "*.go"  | grep -v vendor | xargs grep -r "$1"'
 alias grepi="grep -i"
 alias gv="gvim -o"
@@ -162,6 +166,7 @@ alias psg='ps -ef |grep -v grep| grep -s -i'
 alias psz='ps aux | grep -w Z'
 alias rbm="/opt/rubymine/bin/rubymine.sh"
 alias ref="cd ~/ref"
+alias rebuild="sudo mdutil -E /"
 alias rmcvs="find . -name 'CVS' | xargs rm -rf"
 alias rpmi='rpm -i'
 alias rpmqa='rpm -qa | grep -i'
@@ -186,6 +191,7 @@ alias unpak="tar zxvf $*;"
 alias webshare='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 alias vp='verifyPath '
 alias vin='vi "+NERDTree"'
+alias vim='nvim'
 alias webshare='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 alias wj='whichJar'
 alias xe=xemacs
