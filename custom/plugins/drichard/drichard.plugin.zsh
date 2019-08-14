@@ -191,7 +191,6 @@ alias unpak="tar zxvf $*;"
 alias webshare='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 alias vp='verifyPath '
 alias vin='vi "+NERDTree"'
-alias vim='nvim'
 alias webshare='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 alias wj='whichJar'
 alias xe=xemacs
