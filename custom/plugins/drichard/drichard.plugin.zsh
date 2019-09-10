@@ -5,12 +5,10 @@
 # TODO: clean these up
 #
 # 
-
-export TC_ANSIBLE_VARS=$HOME/cdn/infrastructure/ansible
 export VISUAL=vim
 export GIT_SSL_NO_VERIFY=true
 export HISTTIMEFORMAT="%s "
-export HISTSIZE=100000
+export HISTSIZE=1000000
 export BIN_HOME=$HOME/bin
 export GOPATH=$HOME/projects/go
 export PROJECT_HOME=$HOME/projects
@@ -22,14 +20,8 @@ export ROOT=
 export GO_HOME=$HOME/projects/go
 export GH_HOME=$GO_HOME/src/github.com/apache/incubator-trafficcontrol
 #export GH_HOME=$GO_HOME/src/github.com/apache/incubator-trafficcontrol
-export GH_APACHE_HOME=$GO_HOME/src/github.com/apache
-export GHE_HOME=$GHE_APACHE_HOME/incubator-trafficcontrol
 export TO_APP_HOME=$GH_HOME/traffic_ops/app
 export TO_APP_LOCAL_HOME=$TO_APP_HOME/local
-export PRIV_EXTENSIONS_LIB=$GOPATH/src/github.comcast.com/cdn/traffic_ops_extensions/lib
-export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$TO_APP_LOCAL_HOME/lib/perl5
-#export PERL5LIB=$PRIV_EXTENSIONS_LIB:$TO_APP_HOME/lib:$HOME/perl5/lib/perl5:$TO_APP_HOME/local/lib/perl5
-export RUBYMINE_HOME=/opt/rubymine
 export APPS_HOME=$ROOT/opt
 export TOMCAT_HOME=C:\opt\apache-tomcat-6.0.16
 export ANT_HOME=$APPS_HOME/ant
@@ -37,13 +29,12 @@ export GRAILS_HOME=$APPS_HOME/grails
 export GROOVY_HOME=/opt/groovy-1.5.6
 export GVIM_HOME=$APPS_HOME/Vim/Vim71
 #export JAVA_HOME=/Library/Java/Home
-export JBOSS_HOME=$APPS_HOME/jboss
 export MAVEN_HOME=$APPS_HOME/maven
 #export MAVEN_OPTS="-Djava.awt.headless=true -Xms256m -Xmx1408m -XX:PermSize=256m -XX:MaxPermSize=256m"
 export MAVEN_OPTS=-Djava.awt.headless=true
 #export RUBYMINE_JDK=$JAVA_HOME
-export PYTHONPATH=/usr/local/bin/python
-export PGHOME=/Applications/Postgres.app/Contents/Versions/9.4
+#export PYTHONPATH=/usr/local/bin/python
+#export PGHOME=/Applications/Postgres.app/Contents/Versions/9.4
 #export GEM_PATH=$GEM_PATH:/usr/local/lib/site_ruby/1.8
 
 export EDITOR=vim
@@ -66,9 +57,7 @@ fi
 #Ignore CVS directories and temporary files made by vi (see "man bash" then search for FIGNORE)
 export FIGNORE=".svn"
 
-export USE_BUNDLER=force
-
-export GOMAXPROCS=6
+#export GOMAXPROCS=6
 
 #Thirdparty Paths
 export PATH=$TO_APP_HOME/local/bin:$GOPATH/bin:/usr/local/bin:./bin:$RUBYMINE_HOME/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GROOVY_HOME/bin::/sbin:/opt/sfw/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH:$PGHOME/bin
@@ -183,7 +172,6 @@ alias srchjarInPath=searchJarsInPath
 alias srchwar=searchWars
 alias synw=~/bin/synergy/syns_work.bash
 alias synh=~/bin/synergy/syns_home.bash
-alias synlind=~/bin/synergy/synw_linux_drichardd.bash
 alias tf='tail -f'
 alias tmn='tmux new \; split-window'
 alias ul='unzip -l $*'
