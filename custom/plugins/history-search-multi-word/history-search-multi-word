@@ -39,7 +39,7 @@ typeset -gi __hsmw_page_start_idx __hsmw_prev_offset __hsmw_recedit_trap_execute
 typeset -ga __hsmw_hcw_found
 
 # Context variables
-typeset -gi __hsmw_ctx __hsmw_ctx_idx __hsmw_ctx_text_idx __hsmw_ctx_which
+typeset -gi __hsmw_ctx __hsmw_ctx_idx __hsmw_ctx_prev_idx __hsmw_ctx_text_idx __hsmw_ctx_which
 typeset -gi __hsmw_ctx_page_start_idx __hsmw_ctx_prev_offset
 typeset -g __hsmw_ctx_to_search
 typeset -ga __hsmw_ctx_disp_list
@@ -64,9 +64,11 @@ if (( ${+functions[_hsmw_main]} == 0 )); then
             fi
 
             # '0' will get changed into $to_display limit
-            [[ "$WIDGET" = *-word || "$WIDGET" = *-pforwards ]] && __hsmw_hcw_index="1"
-            [[ "$WIDGET" = *-backwards || "$WIDGET" = *-pbackwards ]] && __hsmw_hcw_index="0"
-            __hsmw_hcw_widget_name="${${${WIDGET%-backwards}-pbackwards}-pforwards}"
+            [[ "$NO_MOVE" != 1 ]] && {
+                [[ "$WIDGET" = *-word || "$WIDGET" = *-pforwards ]] && __hsmw_hcw_index="1"
+                [[ "$WIDGET" = *-backwards || "$WIDGET" = *-pbackwards ]] && __hsmw_hcw_index="0"
+            }
+            __hsmw_hcw_widget_name="${${${WIDGET%-backwards}%-pbackwards}%-pforwards}"
             __hsmw_hcw_found=( )
             __hsmw_hcw_finished="0"
             __hsmw_hcw_restart="0"
@@ -82,10 +84,12 @@ if (( ${+functions[_hsmw_main]} == 0 )); then
             fi
 
             # Consecutive call
-            [[ "$WIDGET" = *-word ]] && (( __hsmw_hcw_index ++ ))
-            [[ "$WIDGET" = *-backwards ]] && (( __hsmw_hcw_index -- ))
-            [[ "$WIDGET" = *-pforwards ]] && (( __hsmw_hcw_index = __hsmw_hcw_index + __hsmw_page_size ))
-            [[ "$WIDGET" = *-pbackwards ]] && (( __hsmw_hcw_index = __hsmw_hcw_index - __hsmw_page_size ))
+            [[ "$NO_MOVE" != 1 ]] && {
+                [[ "$WIDGET" = *-word ]] && (( __hsmw_hcw_index ++ ))
+                [[ "$WIDGET" = *-backwards ]] && (( __hsmw_hcw_index -- ))
+                [[ "$WIDGET" = *-pforwards ]] && (( __hsmw_hcw_index = __hsmw_hcw_index + __hsmw_page_size ))
+                [[ "$WIDGET" = *-pbackwards ]] && (( __hsmw_hcw_index = __hsmw_hcw_index - __hsmw_page_size ))
+            }
         fi
 
         # Find history entries matching pattern *word1*~^*word2*~^*word3* etc.
@@ -239,6 +243,12 @@ _hsmw_backward_kill_word() {
     _hsmw_simulate_widget
 }
 
+_hsmw_reset_prompt() {
+    zle .reset-prompt
+    local NO_MOVE=1
+    _hsmw_simulate_widget
+}
+
 _hsmw_jump_entry() {
     local entry
     if (( __hsmw_ctx )); then
@@ -256,10 +266,14 @@ _hsmw_jump_entry() {
 }
 
 if [[ "$__hsmw_hcw_call_count" -eq "1" ]]; then
+    # Load config of reset-prompt protection
+    local __hsmw_reset_prompt_protect
+    zstyle -t ":plugin:history-search-multi-word" reset-prompt-protect && __hsmw_reset_prompt_protect=1 || __hsmw_reset_prompt_protect=0
+
     # Make the hsmw keymap a copy of the current main
     bindkey -N hsmw emacs
 
-    local down_widget="${${${WIDGET%-backwards}%-pbackwards}-pforwards}"
+    local down_widget="${${${WIDGET%-backwards}%-pbackwards}%-pforwards}"
     local up_widget="${down_widget}-backwards"
     local pdown_widget="${down_widget}-pforwards"
     local pup_widget="${down_widget}-pbackwards"
@@ -337,9 +351,21 @@ if [[ "$__hsmw_hcw_call_count" -eq "1" ]]; then
     zle -A self-insert hsmw-saved-self-insert
     zle -A backward-delete-char hsmw-saved-backward-delete-char
     zle -A delete-char hsmw-saved-delete-char
+    (( __hsmw_reset_prompt_protect )) && zle -A reset-prompt hsmw-saved-reset-prompt
     zle -N self-insert _hsmw_self_insert
     zle -N backward-delete-char _hsmw_backward_delete_char
     zle -N delete-char _hsmw_delete_char
+    (( __hsmw_reset_prompt_protect )) && zle -N reset-prompt _hsmw_reset_prompt
+
+    if (( ${+functions[azhw:zle-line-pre-redraw]} )); then
+        functions[zle-line-pre-redraw-bkp]=${functions[azhw:zle-line-pre-redraw]}
+        functions[azhw:zle-line-pre-redraw]=":"
+    fi
+    
+    if (( ${+functions[azhw:zle-line-finish]} )); then
+        functions[zle-line-finish-bkp]=${functions[azhw:zle-line-finish]}
+        functions[azhw:zle-line-finish]=":"
+    fi
 
     # OMZ does funny things with zle-keymap-select
     zle -la zle-keymap-select && {
@@ -405,7 +431,9 @@ if [[ "$__hsmw_hcw_call_count" -eq "1" ]]; then
     zle -A hsmw-saved-self-insert self-insert
     zle -A hsmw-saved-backward-delete-char backward-delete-char
     zle -A hsmw-saved-delete-char delete-char
+    (( __hsmw_reset_prompt_protect )) && zle -A hsmw-saved-reset-prompt reset-prompt
     zle -D hsmw-saved-self-insert hsmw-saved-backward-delete-char hsmw-saved-delete-char
+    (( __hsmw_reset_prompt_protect )) && zle -D hsmw-saved-reset-prompt
     zle -la hsmw-saved-zle-keymap-select && {
         zle -A hsmw-saved-zle-keymap-select zle-keymap-select
         zle -D hsmw-saved-zle-keymap-select
@@ -419,6 +447,14 @@ if [[ "$__hsmw_hcw_call_count" -eq "1" ]]; then
     zle -A hsmw-saved-"$pdown_widget" "$pdown_widget"
     zle -A hsmw-saved-"$pup_widget" "$pup_widget"
     zle -D hsmw-saved-"$pdown_widget" hsmw-saved-"$pup_widget"
+
+    if (( ${+functions[azhw:zle-line-pre-redraw]} )); then
+        functions[azhw:zle-line-pre-redraw]=${functions[zle-line-pre-redraw-bkp]}
+    fi
+    
+    if (( ${+functions[azhw:zle-line-finish]} )); then
+        functions[azhw:zle-line-finish]=${functions[zle-line-finish-bkp]}
+    fi
 
     # Full reinitialisation at next call
     __hsmw_hcw_call_count="0"

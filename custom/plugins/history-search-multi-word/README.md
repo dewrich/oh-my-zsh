@@ -2,7 +2,10 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](./LICENSE)
 ![ZSH 5.0.0](https://img.shields.io/badge/zsh-v5.0.0-orange.svg?style=flat-square)
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D6XDCHDSBDSDG)
+[![paypal](https://img.shields.io/badge/-Donate-yellow.svg?longCache=true&style=for-the-badge)](https://www.paypal.me/ZdharmaInitiative)
+[![patreon](https://img.shields.io/badge/-Patreon-orange.svg?longCache=true&style=for-the-badge)](https://www.patreon.com/psprint)
+<br/>You can request a feature when donating, even fancy or advanced ones get implemented this way. [There are
+reports](DONATIONS.md) about what is being done with the money received.
 
 # Introduction
 
@@ -14,11 +17,47 @@ Video – view on [asciinema](https://asciinema.org/a/88954). You can resize th
 
 [![asciicast](https://asciinema.org/a/88954.png)](https://asciinema.org/a/88954)
 
-HSMW is **FAST** – highlighting 20 concurrent complex history entries does not cause real slow down:
+HSMW has feature called **context viewing** – see all occurrences of a command together
+with surrounding commands:
 
-[![asciicast](https://asciinema.org/a/89406.png)](https://asciinema.org/a/89406)
+[![asciicast](https://asciinema.org/a/155704.png)](https://asciinema.org/a/155704)
+
+Set:
+
+```zsh
+    zstyle :plugin:history-search-multi-word reset-prompt-protect 1
+```
+
+to be able to use `zle reset-prompt` in your e.g. `sched` calls, in presence of
+`zdharma/fast-syntax-highlighting`, `zsh-users/zsh-syntax-highlighting`,
+`zsh-users/zsh-autosuggestions` and other plugins that hook up into Zshell by
+overloading Zle widgets. You could e.g. use `sched` in following way:
+
+```zsh
+PROMPT=%B%F{yellow}%D{%H:%M:%S}%B%b%f
+schedprompt() {
+    zle && zle reset-prompt
+    sched +1 schedprompt
+}
+
+zmodload -i zsh/sched
+schedprompt
+```
+
+to refresh the clock in prompt every second. The `reset-prompt-protect` zstyle
+needs to be set to 1 for correct cooperation with HSMW. Or, you could use `zle
+.reset-prompt` (i.e. with the dot in front) to call the original, not
+overloaded (by F-Sy-H, zsh-autosuggestsions, etc.) `reset-prompt` widget.
 
 # News
+* 25-05-2018
+  - Hash holding paths that shouldn't be grepped (globbed) – blacklist for slow disks, mounts, etc.:
+
+    ```zsh
+    typeset -gA FAST_BLIST_PATTERNS
+    FAST_BLIST_PATTERNS[/mount/nfs1/*]=1
+    FAST_BLIST_PATTERNS[/mount/disk2/*]=1
+    ```
 
 * 13-06-2017
   - Canceling search doesn't clear entered query. Change to previous behavior via:
@@ -109,30 +148,44 @@ other too, and also install with `Oh My Zsh` (by copying directory to
 `~/.oh-my-zsh/custom/plugins`).
 
 
-### [Zplugin](https://github.com/psprint/zplugin)
+### [Zplugin](https://github.com/zdharma/zplugin)
 
-Add `zplugin load psprint/history-search-multi-word` to your `.zshrc` file.
+Add `zplugin load zdharma/history-search-multi-word` to your `.zshrc` file.
 Zplugin will handle cloning the plugin for you automatically the next time you
 start zsh.
 
 ### Antigen
 
-Add `antigen bundle psprint/history-search-multi-word` to your `.zshrc` file.
+Add `antigen bundle zdharma/history-search-multi-word` to your `.zshrc` file.
 Antigen will handle cloning the plugin for you automatically the next time you
 start zsh. You can also add the plugin to a running zsh with `antigen bundle
-psprint/history-search-multi-word` for testing before adding it to your
+zdharma/history-search-multi-word` for testing before adding it to your
 `.zshrc`.
 
 ### Oh-My-Zsh
 
 1. `cd ~/.oh-my-zsh/custom/plugins`
-2. `git clone git@github.com:psprint/history-search-multi-word.git`
+2. `git clone git@github.com:zdharma/history-search-multi-word.git`
 3. Add `history-search-multi-word` to your plugin list
 
 ### Zgen
 
-Add `zgen load psprint/history-search-multi-word` to your .zshrc file in the same
+Add `zgen load zdharma/history-search-multi-word` to your .zshrc file in the same
 place you're doing your other `zgen load` calls in.
+
+
+### Arch Linux
+
+1. Install [`zsh-history-search-multi-word-git`](https://aur.archlinux.org/packages/zsh-history-search-multi-word-git/) from the [AUR](https://wiki.archlinux.org/index.php/Arch_User_Repository).
+
+2. Add the following to your `.zshrc`:
+
+    ```sh
+    source /usr/share/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
+    ```
+
+3. Start a new terminal session
+
 
 # Customizing
 
@@ -150,10 +203,10 @@ zstyle ":plugin:history-search-multi-word" clear-on-cancel "no"        # Whether
 ## Syntax highlighting
 
 Syntax highlighting is customized via `HSMW_HIGHLIGHT_STYLES` associative array.
-It has keys like `reserved-word`, `alias`, `command`, `path`, which are assigned
+It has keys like `reserved-word`, `alias`, `command`, `path`, etc. which are assigned
 with strings like `fg=blue,bold`, to configure how given elements are to be
-colored. If you assign this array before loading `hsmw` you will change the defaults. Complete list
-of available keys is [at the beginning](https://github.com/psprint/history-search-multi-word/blob/master/hsmw-highlight#L34-L62)
+colored. If you assign this array before or after loading `hsmw` you will change the defaults. Complete list
+of available keys is [at the beginning](https://github.com/zdharma/history-search-multi-word/blob/master/hsmw-highlight#L34-L62)
 of `hsmw-highlight` file. Example `~/.zshrc` addition that sets `path` key –
 paths that exist will be highlighted with background magenta, foreground white, bold:
 

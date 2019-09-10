@@ -148,6 +148,14 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
 
   [[ -z "$REPLY" ]] && REPLY="${$(LC_ALL=C builtin type -w -- $1 2>/dev/null)##*: }"
 
+  [[ "$REPLY" = "none" ]] && {
+    [[ -d "$1" ]] && REPLY="dirpath" || {
+      for cdpath_dir in $cdpath; do
+        [[ -d "$cdpath_dir/$1" ]] && { REPLY="dirpath"; break; }
+      done
+    }
+  }
+
   __hsmw_highlight_main__command_type_cache[(e)$1]=$REPLY
 
   }
@@ -415,6 +423,8 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
                           braces_stack[1]=""
                           style=reserved-word
                           (( next_word = next_word | 16 ))
+                        elif [[ $arg == "[[" ]]; then
+                          braces_stack='A'"$braces_stack"
                         fi
                         ;;
         'suffix alias') style=suffix-alias;;
@@ -444,6 +454,7 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
         function)       style=function;;
         command)        style=command;;
         hashed)         style=hashed-command;;
+        dirpath)        style=path;;
         none)           # Assign?
                         if [[ $arg == [[:alpha:]_][[:alnum:]_]#(|\[[^\]]#\])(|[+])=* ]] || [[ $arg == [0-9]##(|[+])=* ]]; then
                           style=assign
@@ -500,9 +511,15 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
       case $arg in
         ']]')
                  style=reserved-word
+                 [[ $braces_stack[1] == "A" ]] && braces_stack[1]=""
                  ;;
         ']')
                  style=builtin
+                 ;;
+        $'\x28')
+                 # '(' inside [[
+                 style=reserved-word
+                 braces_stack='R'"$braces_stack"
                  ;;
         $'\x29') # subshell or end of array assignment
                  if (( in_array_assignment )); then
@@ -584,6 +601,8 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
       if [[ $arg == ';' ]] && (( in_array_assignment )); then
         # literal newline inside an array assignment
         (( next_word = 2 ))
+      elif [[ -n "${braces_stack[(r)A]}" ]]; then
+        (( next_word = 2 ))
       else
         (( next_word = 1 ))
         highlight_glob=1
@@ -606,6 +625,8 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
     # This is the default/common codepath.
     (( in_redirection == 0 )) && (( this_word = next_word )) #else # Stall $this_word.
   done
+
+  return 0
 }
 
 # Check if $arg is a path.
@@ -614,6 +635,7 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
 -hsmw-highlight-check-path()
 {
   : ${expanded_path:=${(Q)~arg}}
+  [[ -n "${FAST_BLIST_PATTERNS[(k)$expanded_path]}" ]] && return 1
 
   [[ -z $expanded_path ]] && return 1
   [[ -e $expanded_path ]] && return 0
@@ -701,4 +723,4 @@ __HSMW_HIGHLIGHT_TOKENS_TYPES=(
   __hsmw_highlight_main__command_type_cache=()
 }
 
-__HSMW_MH_SOURCED=1
+typeset -g __HSMW_MH_SOURCED=1

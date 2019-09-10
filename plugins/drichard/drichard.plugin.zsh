@@ -6,6 +6,8 @@
 #
 # 
 
+echo "hello"
+
 export TC_ANSIBLE_VARS=$HOME/cdn/infrastructure/ansible
 export VISUAL=vim
 export GIT_SSL_NO_VERIFY=true
@@ -132,7 +134,8 @@ alias egrep='egrep --color=tty -d skip'
 alias fgrep='fgrep --color=tty -d skip'
 alias grep='grep --color=tty -d skip'
 alias gobak=goBackToBak
-alias gt='go test -v $(go list ./... | grep -v /vendor/) $*'
+#alias gt='go test -v $(go list ./... | grep -v /vendor/) $*'
+alias gt='richgo test -v ./...'
 alias ggrep='find . -name "*.go"  | grep -v vendor | xargs grep -r "$1"'
 alias grepi="grep -i"
 alias gv="gvim -o"
