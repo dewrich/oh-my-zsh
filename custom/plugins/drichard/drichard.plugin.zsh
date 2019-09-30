@@ -5,6 +5,8 @@
 # TODO: clean these up
 #
 # 
+export AWS_ASSUME_ROLE_TTL="1h"
+
 export VISUAL=vim
 export GIT_SSL_NO_VERIFY=true
 export HISTTIMEFORMAT="%s "
@@ -121,7 +123,8 @@ alias egrep='egrep --color=tty -d skip'
 alias fgrep='fgrep --color=tty -d skip'
 alias grep='grep --color=tty -d skip'
 alias gobak=goBackToBak
-alias gt='go test -v $(go list ./... | grep -v /vendor/) $*'
+alias gt='richgo test -v ./...'
+#alias gt='go test -v $(go list ./... | grep -v /vendor/) $*'
 alias ggrep='find . -name "*.go"  | grep -v vendor | xargs grep -r "$1"'
 alias grepi="grep -i"
 alias gv="gvim -o"
@@ -142,7 +145,7 @@ alias lr='ls -larth'
 alias lt='ls -latrh'
 alias mysqlstart='sudo /opt/local/bin/mysqld_safe5 &' 
 alias mysqlstop='/opt/local/bin/mysqladmin5 -u root -p shutdown'
-alias myenv='vim ~/.oh-my-zsh/plugins/drichard/drichard.plugin.zsh'
+alias myenv='vim ~/.oh-my-zsh/custom/plugins/drichard/drichard.plugin.zsh'
 alias nobak='find . -name "*.bak" | xargs -s 100000 rm'
 alias nocsv='ff "CVS" | xargs rm -rf'
 alias paklist="tar ztvf $*"
