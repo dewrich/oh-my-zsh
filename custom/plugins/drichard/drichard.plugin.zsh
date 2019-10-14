@@ -6,6 +6,8 @@
 #
 # 
 export AWS_ASSUME_ROLE_TTL="1h"
+export AWS_VAULT_BACKEND=keychain
+export GONOSUMDB=github.com/ValiMail
 
 export VISUAL=vim
 export GIT_SSL_NO_VERIFY=true
@@ -41,6 +43,9 @@ export MAVEN_OPTS=-Djava.awt.headless=true
 
 export EDITOR=vim
 export SVN_EDITOR="vim --noplugin"
+
+# Enables no cd in zsh
+setopt auto_cd
 
 #Set the bin subdirectories on the path
 if [[ -e ~/bin ]];then
@@ -164,15 +169,11 @@ alias rpmi='rpm -i'
 alias rpmqa='rpm -qa | grep -i'
 alias rpmrb='rpmbuild --rebuild'
 alias rit='ruby -I"lib:test"'
-alias sc='synergyc 165.137.58.238'
-alias sch='synergyc 10.13.13.10'
 alias sd="function sd(){ export $1=$PWD; }"
 alias slay=slayFunc
-alias srchear=searchEars
 alias srchjaro=searchJarsOnly
 alias srchjar=searchJars
 alias srchjarInPath=searchJarsInPath
-alias srchwar=searchWars
 alias synw=~/bin/synergy/syns_work.bash
 alias synh=~/bin/synergy/syns_home.bash
 alias tf='tail -f'
@@ -266,7 +267,7 @@ function searchJars()
   done;
 }
 
-function searchJarsInPath()
+searchJarsInPath()
 {
 		searchString=$1
 		jarfiles=$2
@@ -284,7 +285,7 @@ function searchJarsInPath()
 		done
 }
 
-function searchJarsOnly()
+searchJarsOnly()
 {
        for i in `find . -name "*.jar"`
        do
@@ -295,28 +296,18 @@ function searchJarsOnly()
           echo $output
        done
 }
-function searchWars()
-{
-       for i in `find . -name "*.war"`; do echo $i; jar -tvf $i | grep -i $*; done
-}
-function searchEars()
-{
-       for i in `find . -name "*.ear"`; do echo $i; jar -tvf $i | grep -i $*; done
-}
-
-
-function searchZips()
+searchZips()
 {
        for i in `find . -name "*.zip"`; do echo $i; unzip -l $i | grep -i $*; done
 }
 
 
-function grepFind()
+grepFind()
 {
 	grep -si $* `find .`
 }
 
-function verifyPath()
+verifyPath()
 {
    FILES_EXIST=1
 	echo "=========================================================================" 
@@ -335,7 +326,7 @@ function verifyPath()
 	echo "=========================================================================" 
 }
 
-function whichJar()
+whichJar()
 {
 	SEARCH=$1
 	shift
@@ -362,18 +353,18 @@ function whichJar()
 	echo "=========================================================================" 
 }
 
-function expandPath()
+expandPath()
 {
 	echo $*|perl -i -p -e 's/:/\n/g';
 }
 
-function changeAllNoBak()
+changeAllNoBak()
 {
 	changeAll $@
 	nobak
 }
 
-function changeAll()
+changeAll()
 {
 	export CHANGEALLFROM=$1;
 	export CHANGEALLTO=$2;
@@ -382,13 +373,8 @@ function changeAll()
  	eval $cmd
 }
 
-function subversionAddNewAssets()
-{
-    svn add `svn stat | grep ? | awk '{print $2}'`
-}
-
 #Appends to the perm_hist files
-function zshaddhistory() {
+zshaddhistory() {
    TODAYS_MONTH=`expr \`date +%m\` `
    TODAYS_DAY=`expr \`date +%d\` `
    TODAYS_YEAR=`expr \`date +%Y\` `
@@ -406,3 +392,51 @@ function zshaddhistory() {
    touch $HISTORY_FILE
    echo $HISTORY_LINE >> $HISTORY_FILE
 }
+
+jj() {
+    local dir
+    dir=$(fasd -Rdl |\
+        sed "s:$HOME:~:" |\
+        fzf --no-sort +m -q "$*" |\
+        sed "s:~:$HOME:")\
+    && pushd "$dir"
+}
+compdef jj
+
+jd() {
+    local dir
+    dir=$(find ${1:-*} -path '*/\.*'\
+        -prune -o -type d\
+        -print 2> /dev/null | fzf +m)
+    [ -d "$dir" ] && pushd "$dir"
+}
+compdef jd
+
+jf() {
+    local file
+    local dir
+    file=$(fzf +m -q "$1")\
+        && dir=$(dirname "$file")
+    [ -d "$dir" ] && pushd "$dir"
+}
+compdef jf
+
+les() {
+    ftype=$(pygmentize -N "$1")
+    pygmentize -l "$ftype"\
+      -f terminal "$1" |\
+        less -R
+}
+compdef les
+
+vv() {
+    local file
+    if [[ -e "$1" ]]; then
+        les "$1"
+    else
+        file=$(fzf --query="$1"\
+          --select-1 --exit-0)
+        [ -n "$file" ] && les "$file"
+    fi
+}
+compdef v

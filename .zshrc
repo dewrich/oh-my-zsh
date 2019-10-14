@@ -70,12 +70,12 @@ ZSH_THEME="drichard"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(drichard git)
 #plugins=(drichard rbenv mvn fasd git python textmate ruby ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting)
-plugins=(drichard docker docker-compose fasd git ssh-agent vundle brew osx history-substring-search golang postgres history-search-multi-word zsh-syntax-highlighting fast-syntax-highlighting)
+plugins=(drichard zsh-completions rbenv docker docker-compose fasd git ssh-agent vundle brew osx history-substring-search golang postgres history-search-multi-word zsh-syntax-highlighting fast-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-fpath=($HOME/.zsh/functions $fpath)
-autoload -U history-incremental-multi-search
+fpath=($HOME/.zsh/functions $fpath $HOME/.oh-my-zsh/custom/plugins/zsh-completions/src)
+autoload -U history-incremental-multi-search 
 
 # make new widgets from function
 zle -N history-incremental-multi-search-backward history-incremental-multi-search
@@ -91,6 +91,7 @@ eval "$(direnv hook zsh)"
 
 DISABLE_UPDATE_PROMPT=true
 
+autoload -U compinit && compinit
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
