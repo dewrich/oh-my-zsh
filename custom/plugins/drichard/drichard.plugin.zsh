@@ -6,6 +6,7 @@
 #
 # 
 export AWS_ASSUME_ROLE_TTL="1h"
+export NPM_TOKEN=aa57e181-aefc-48da-8b68-36ed6e3cada5
 export AWS_VAULT_BACKEND=keychain
 export GONOSUMDB=github.com/ValiMail
 
