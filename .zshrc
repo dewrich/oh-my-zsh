@@ -70,7 +70,9 @@ ZSH_THEME="drichard"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(drichard git)
 #plugins=(drichard rbenv mvn fasd git python textmate ruby ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting)
-plugins=(drichard zsh-completions rbenv docker docker-compose fasd git ssh-agent vundle brew osx history-substring-search golang postgres history-search-multi-word zsh-syntax-highlighting fast-syntax-highlighting)
+#zstyle :omz:plugins:ssh-agent agent-forwarding on
+#zstyle :omz:plugins:ssh-agent agent-forwarding on identities id_rsa lifetime 8h
+plugins=(drichard reminder zsh-completions rbenv docker docker-compose fasd git ssh-agent vundle brew osx history-substring-search golang postgres history-search-multi-word zsh-syntax-highlighting fast-syntax-highlighting pyenv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,3 +121,5 @@ autoload -U compinit && compinit
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 #test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
