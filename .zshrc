@@ -72,7 +72,9 @@ ZSH_THEME="drichard"
 #plugins=(drichard rbenv mvn fasd git python textmate ruby ssh-agent vundle brew osx history-substring-search zsh-syntax-highlighting)
 #zstyle :omz:plugins:ssh-agent agent-forwarding on
 #zstyle :omz:plugins:ssh-agent agent-forwarding on identities id_rsa lifetime 8h
-plugins=(drichard reminder zsh-completions rbenv docker docker-compose fasd git ssh-agent vundle brew osx history-substring-search golang postgres history-search-multi-word zsh-syntax-highlighting fast-syntax-highlighting pyenv)
+#eval "$(gimme 1.14)"
+
+plugins=(drichard reminder zsh-completions rbenv docker docker-compose fasd git ssh-agent vundle brew osx history-substring-search golang postgres history-search-multi-word zsh-syntax-highlighting fast-syntax-highlighting pyenv gimme)
 
 source $ZSH/oh-my-zsh.sh
 
