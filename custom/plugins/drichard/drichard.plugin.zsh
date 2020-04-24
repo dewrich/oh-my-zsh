@@ -6,6 +6,7 @@
 #
 # 
 export AWS_ASSUME_ROLE_TTL="1h"
+export AWS_SDK_LOAD_CONFIG=1
 export NPM_TOKEN=aa57e181-aefc-48da-8b68-36ed6e3cada5
 export AWS_VAULT_BACKEND=keychain
 export GONOSUMDB=github.com/ValiMail
@@ -16,6 +17,7 @@ export HISTTIMEFORMAT="%s "
 export HISTSIZE=1000000
 export BIN_HOME=$HOME/bin
 export GOPATH=$HOME/projects/go
+export CODE_PATH=$GOPATH/src/github.com/ValiMail
 export GIMME_PATH=$HOME/.gimme/versions/go1.14.1.darwin.amd64
 export PROJECT_HOME=$HOME/projects
 
