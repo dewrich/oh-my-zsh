@@ -48,6 +48,7 @@ export MAVEN_OPTS=-Djava.awt.headless=true
 
 export EDITOR=vim
 export SVN_EDITOR="vim --noplugin"
+export MYAPP_LOG_FORMATTER=text
 
 # Enables no cd in zsh
 setopt auto_cd
