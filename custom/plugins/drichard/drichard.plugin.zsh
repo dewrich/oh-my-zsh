@@ -19,7 +19,7 @@ export BIN_HOME=$HOME/bin
 export GOPATH=$HOME/projects/go
 export CODE_PATH=$GOPATH/src/github.com/ValiMail
 export GIMME_PATH=$HOME/.gimme/versions/go1.14.1.darwin.amd64
-export RUST_PATH=/Users/dewayne.richardson/.cargo
+export RUST_PATH=/home/drichard/.cargo
 export PROJECT_HOME=$HOME/projects
 
 # set in the .bashrc
@@ -73,7 +73,7 @@ export FIGNORE=".svn"
 #export GOMAXPROCS=6
 
 #Thirdparty Paths
-export PATH=$TO_APP_HOME/local/bin:$RUST_PATH/bin:$GIMME_PATH/bin:$GOPATH/bin:/usr/local/bin:./bin:$RUBYMINE_HOME/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GROOVY_HOME/bin::/sbin:/opt/sfw/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH:$PGHOME/bin
+export PATH=$HOME/bin:$TO_APP_HOME/local/bin:$RUST_PATH/bin:$GIMME_PATH/bin:$GOPATH/bin:/usr/local/bin:./bin:$RUBYMINE_HOME/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GROOVY_HOME/bin::/sbin:/opt/sfw/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH:$PGHOME/bin
 #export PATH=$JAVA_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:/sbin:$PATH
 
 export CATALINA_OPTS="-ms64M -mx512M -XX:+CMSClassUnloadingEnabled -XX:+CMSPermGenSweepingEnabled"
