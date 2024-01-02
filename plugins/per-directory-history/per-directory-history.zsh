@@ -59,7 +59,6 @@
 [[ -z $HISTORY_BASE ]] && HISTORY_BASE="$HOME/.directory_history"
 [[ -z $HISTORY_START_WITH_GLOBAL ]] && HISTORY_START_WITH_GLOBAL=false
 [[ -z $PER_DIRECTORY_HISTORY_TOGGLE ]] && PER_DIRECTORY_HISTORY_TOGGLE='^G'
-[[ -z $PER_DIRECTORY_HISTORY_PRINT_MODE_CHANGE ]] && PER_DIRECTORY_HISTORY_PRINT_MODE_CHANGE=true
 
 #-------------------------------------------------------------------------------
 # toggle global/directory history used for searching - ctrl-G by default
@@ -69,22 +68,19 @@ function per-directory-history-toggle-history() {
   if [[ $_per_directory_history_is_global == true ]]; then
     _per-directory-history-set-directory-history
     _per_directory_history_is_global=false
-    if [[ $PER_DIRECTORY_HISTORY_PRINT_MODE_CHANGE == true ]]; then
-      zle -M "using local history"
-    fi
+    print -n "\nusing local history"
   else
     _per-directory-history-set-global-history
     _per_directory_history_is_global=true
-    if [[ $PER_DIRECTORY_HISTORY_PRINT_MODE_CHANGE == true ]]; then
-      zle -M "using global history"
-    fi
+    print -n "\nusing global history"
   fi
+  zle .push-line
+  zle .accept-line
 }
 
 autoload per-directory-history-toggle-history
 zle -N per-directory-history-toggle-history
 bindkey $PER_DIRECTORY_HISTORY_TOGGLE per-directory-history-toggle-history
-bindkey -M vicmd $PER_DIRECTORY_HISTORY_TOGGLE per-directory-history-toggle-history
 
 #-------------------------------------------------------------------------------
 # implementation details

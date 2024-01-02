@@ -35,11 +35,12 @@ marks() {
 			max=${#link:t}
 		fi
 	done
-	local printf_markname_template="$(printf -- "%%%us" "$max")"
+	local printf_markname_template="$(printf -- "%%%us " "$max")"
 	for link in $MARKPATH/{,.}*(@N); do
-		local markname="$fg[cyan]$(printf -- "$printf_markname_template" "${link:t}")$reset_color"
+		local markname="$fg[cyan]${link:t}$reset_color"
 		local markpath="$fg[blue]$(readlink $link)$reset_color"
-		printf -- "%s -> %s\n" "$markname" "$markpath"
+		printf -- "$printf_markname_template" "$markname"
+		printf -- "-> %s\n" "$markpath"
 	done
 }
 

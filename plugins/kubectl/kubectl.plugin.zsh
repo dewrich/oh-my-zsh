@@ -162,7 +162,6 @@ alias kdelsa="kubectl delete sa"
 
 # DaemonSet management.
 alias kgds='kubectl get daemonset'
-alias kgdsa='kubectl get daemonset --all-namespaces'
 alias kgdsw='kgds --watch'
 alias keds='kubectl edit daemonset'
 alias kdds='kubectl describe daemonset'

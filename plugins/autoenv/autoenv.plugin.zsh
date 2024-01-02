@@ -17,13 +17,9 @@ if ! type autoenv_init >/dev/null; then
       /usr/local/bin
       /usr/share/autoenv-git
       ~/Library/Python/bin
-      .venv/bin
-      venv/bin
-      env/bin
-      .env/bin
     )
     for d ( $install_locations ); do
-      if [[ -e $d/activate || -e $d/activate.sh ]]; then
+      if [[ -e $d/activate.sh ]]; then
         autoenv_dir=$d
         break
       fi
@@ -33,13 +29,13 @@ if ! type autoenv_init >/dev/null; then
   # Look for Homebrew path as a last resort
   if [[ -z "$autoenv_dir" ]] && (( $+commands[brew] )); then
     d=$(brew --prefix)/opt/autoenv
-    if [[ -e $d/activate || -e $d/activate.sh ]]; then
+    if [[ -e $d/activate.sh ]]; then
       autoenv_dir=$d
     fi
   fi
 
   # Complain if autoenv is not installed
-  if [[ -z $autoenv_dir ]]; then
+  if [[ -z $autoenv_dir ]]; then 
     cat <<END >&2
 -------- AUTOENV ---------
 Could not locate autoenv installation.
@@ -50,11 +46,7 @@ END
     return 1
   fi
   # Load autoenv
-  if [[ -e $autoenv_dir/activate ]]; then
-    source $autoenv_dir/activate
-  else
-    source $autoenv_dir/activate.sh
-  fi
+  source $autoenv_dir/activate.sh
 fi
 }
 [[ $? != 0 ]] && return $?

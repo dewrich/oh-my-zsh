@@ -63,9 +63,7 @@ zdot="${ZDOTDIR:-$HOME}"
 # Default value for $ZSH
 # a) if $ZDOTDIR is supplied and not $HOME: $ZDOTDIR/ohmyzsh
 # b) otherwise, $HOME/.oh-my-zsh
-if [ -n "$ZDOTDIR" ] && [ "$ZDOTDIR" != "$HOME" ]; then
-  ZSH="${ZSH:-$ZDOTDIR/ohmyzsh}"
-fi
+[ "$ZDOTDIR" = "$HOME" ] || ZSH="${ZSH:-${ZDOTDIR:+$ZDOTDIR/ohmyzsh}}"
 ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 
 # Default settings
@@ -86,10 +84,6 @@ command_exists() {
 user_can_sudo() {
   # Check if sudo is installed
   command_exists sudo || return 1
-  # Termux can't run sudo, so we can detect it and exit the function early.
-  case "$PREFIX" in
-  *com.termux*) return 1 ;;
-  esac
   # The following command has 3 parts:
   #
   # 1. Run `sudo` with `-v`. Does the following:

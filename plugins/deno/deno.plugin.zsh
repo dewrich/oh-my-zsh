@@ -8,7 +8,6 @@ alias dli='deno lint'
 alias drn='deno run'
 alias drA='deno run -A'
 alias drw='deno run --watch'
-alias dru='deno run --unstable'
 alias dts='deno test'
 alias dup='deno upgrade'
 

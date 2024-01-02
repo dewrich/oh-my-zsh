@@ -80,13 +80,7 @@ function jira() {
       issue_arg=${issue_arg##*/}
       # Strip suffixes starting with _
       issue_arg=(${(s:_:)issue_arg})
-      # If there is only one part, it means that there is a different delimiter. Try with -
-      if [[ ${#issue_arg[@]} = 1 && ${issue_arg} == *-* ]]; then
-        issue_arg=(${(s:-:)issue_arg})
-        issue_arg="${issue_arg[1]}-${issue_arg[2]}"
-      else
-        issue_arg=${issue_arg[1]}
-      fi
+      issue_arg=${issue_arg[1]}
       if [[ "${issue_arg:l}" = ${jira_prefix:l}* ]]; then
         issue="${issue_arg}"
       else
