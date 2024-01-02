@@ -13,7 +13,7 @@ fi
 kubectl completion zsh 2> /dev/null >| "$ZSH_CACHE_DIR/completions/_kubectl" &|
 
 # This command is used a LOT both below and in daily life
-alias k=kubectl
+alias kc=kubectl
 
 # Execute a kubectl command against all namespaces
 alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'

@@ -12,7 +12,7 @@ dirhistory_future=()
 export dirhistory_past
 export dirhistory_future
 
-export DIRHISTORY_SIZE=30
+export DIRHISTORY_SIZE=100000
 
 # Pop the last element of dirhistory_past.
 # Pass the name of the variable to return the result in.
