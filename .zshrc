@@ -131,3 +131,4 @@ SAVEHIST=10000000
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(gh copilot alias -- zsh)"

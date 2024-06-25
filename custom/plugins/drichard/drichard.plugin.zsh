@@ -76,7 +76,7 @@ export FIGNORE=".svn"
 #export GOMAXPROCS=6
 
 #The PATH
-export PATH=/opt/homebrew/sbin:/opt/homebrew/bin:/Users/drichardson/Library/Python/3.9/bin:/usr/local/share/dotnet/x64:$HOME/.gobrew/current/bin:$HOME/.gobrew/bin:$HOME/bin:$GOPATH/bin:/usr/local/bin:./bin::/sbin:/opt/sfw/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH:$PGHOME/bin:$HOME/Library/Python/3.8/bin:$MAVEN_HOME/bin
+export PATH=/opt/homebrew/opt/postgresql@15/bin:/opt/homebrew/sbin:/opt/homebrew/bin:/Users/drichardson/Library/Python/3.9/bin:/usr/local/share/dotnet/x64:$HOME/.gobrew/current/bin:$HOME/.gobrew/bin:$HOME/bin:$GOPATH/bin:/usr/local/bin:./bin::/sbin:/opt/sfw/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH:$PGHOME/bin:$HOME/Library/Python/3.8/bin:$MAVEN_HOME/bin
 
 # Added for github
 #keychain --nogui -q $(find $HOME/.ssh/ -type f -name 'id_[r,d]sa')
